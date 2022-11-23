@@ -29,7 +29,6 @@ async function onFormSubmit(event) {
       divEl.innerHTML = '';
       const { data } = await apiService.fetchPhotos();
       renderPhoto(data);
-      lightbox.refresh();
     } catch {
       error => console.log(error);
     }
@@ -67,5 +66,6 @@ async function onLoadMoreBtnClick(event) {
   apiService.page += 1;
   const { data } = await apiService.fetchPhotos();
   divEl.insertAdjacentHTML('beforeend', createPhotoCards(data.hits));
+  Notiflix.Notify.info('Еще пару фото для вас');
   lightbox.refresh();
 }
