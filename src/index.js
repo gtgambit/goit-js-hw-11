@@ -64,7 +64,7 @@ async function onLoadMoreBtnClick(event) {
   apiService.page += 1;
   const { data } = await apiService.fetchPhotos();
   if (data.hits <= 0) {
-    Notiflix.Notify.info('Фото закончились, приходите позже');
+    Notiflix.Notify.warning('Фото закончились, приходите позже');
     loadMoreBtn.classList.add('is-hidden');
     return;
   }
