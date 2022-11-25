@@ -60,11 +60,14 @@ function renderPhoto(data) {
   loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
 }
 
-loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
-
 async function onLoadMoreBtnClick(event) {
   apiService.page += 1;
   const { data } = await apiService.fetchPhotos();
+  if (data.hits <= 0) {
+    Notiflix.Notify.info('Фото закончились, приходите позже');
+    loadMoreBtn.classList.add('is-hidden');
+    return;
+  }
   divEl.insertAdjacentHTML('beforeend', createPhotoCards(data.hits));
   Notiflix.Notify.info('Еще пару фото для вас');
   lightbox.refresh();
