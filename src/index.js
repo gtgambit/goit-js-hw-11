@@ -58,7 +58,7 @@ function renderPhoto(data) {
   //  return;
   //}
   Notiflix.Notify.success(
-    `Мы поскребли по сусекам и нашли для вас ${data.totalHits} фото`
+    `Мы поскребли по сусекам и нашли для вас ${data.total} фото`
   );
   divEl.innerHTML = createPhotoCards(data.hits);
   lightbox.refresh();
@@ -70,7 +70,7 @@ async function onLoadMoreBtnClick(event) {
   apiService.page += 1;
   try {
     const { data } = await apiService.fetchPhotos();
-    if (apiService.page === Math.ceil(data.totalHits / apiService.per_page)) {
+    if (apiService.page === Math.ceil(data.total / apiService.per_page)) {
       divEl.insertAdjacentHTML('beforeend', createPhotoCards(data.hits));
       Notiflix.Notify.warning('Это все фото');
       loadMoreBtn.classList.add('is-hidden');
