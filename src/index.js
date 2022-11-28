@@ -54,7 +54,9 @@ function renderPhoto(data) {
   //  loadMoreBtn.classList.add('is-hidden');
   //  return;
   //}
-  Notiflix.Notify.success(`Мы поскребли по сусекам и нашли для вас пару фото`);
+  Notiflix.Notify.success(
+    `Мы поскребли по сусекам и нашли для вас ${data.totalHits} фото`
+  );
   divEl.innerHTML = createPhotoCards(data.hits);
   lightbox.refresh();
   loadMoreBtn.classList.remove('is-hidden');
