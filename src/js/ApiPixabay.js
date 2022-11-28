@@ -19,6 +19,7 @@ export class ApiService {
         safesearch: true,
         page: this.page,
         key: this.#API_KEY,
+        per_page: this.per_page,
       },
     };
     return axios.get(`${this.#BASE_URL}`, searchParams);

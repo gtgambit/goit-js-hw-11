@@ -45,14 +45,15 @@ function renderPhoto(data) {
     loadMoreBtn.classList.add('is-hidden');
     lightbox.refresh();
     return;
-  } else if (
-    apiService.page === Math.ceil(data.totalHits / apiService.per_page)
-  ) {
-    divEl.innerHTML = createPhotoCards(data.hits);
-    lightbox.refresh();
-    loadMoreBtn.classList.add('is-hidden');
-    return;
   }
+  //else if (
+  //  apiService.page === Math.ceil(data.totalHits / apiService.per_page)
+  //) {
+  //  divEl.innerHTML = createPhotoCards(data.hits);
+  //  lightbox.refresh();
+  //  loadMoreBtn.classList.add('is-hidden');
+  //  return;
+  //}
   Notiflix.Notify.success(`Мы поскребли по сусекам и нашли для вас пару фото`);
   divEl.innerHTML = createPhotoCards(data.hits);
   lightbox.refresh();
@@ -62,13 +63,17 @@ function renderPhoto(data) {
 
 async function onLoadMoreBtnClick(event) {
   apiService.page += 1;
-  const { data } = await apiService.fetchPhotos();
-  if (data.hits <= 0) {
-    Notiflix.Notify.warning('Фото закончились, приходите позже');
-    loadMoreBtn.classList.add('is-hidden');
-    return;
+  try {
+    const { data } = await apiService.fetchPhotos();
+    if (data.hits <= 0) {
+      Notiflix.Notify.warning('Фото закончились, приходите позже');
+      loadMoreBtn.classList.add('is-hidden');
+      return;
+    }
+    divEl.insertAdjacentHTML('beforeend', createPhotoCards(data.hits));
+    Notiflix.Notify.info('Еще пару фото для вас');
+    lightbox.refresh();
+  } catch (error) {
+    console.log(error);
   }
-  divEl.insertAdjacentHTML('beforeend', createPhotoCards(data.hits));
-  Notiflix.Notify.info('Еще пару фото для вас');
-  lightbox.refresh();
 }
